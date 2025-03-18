@@ -128,7 +128,8 @@
         });
 
         function generateReferralLink(email) {
-            let baseURL = "https://company.com/signup?ref=";
+            const baseuri= window.location.href
+            let baseURL = baseuri+"?ref=";
             return baseURL + encodeURIComponent(email);
         }
 
