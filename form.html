@@ -91,9 +91,9 @@
             <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
             <input type="text" id="address" name="address" placeholder="Enter your address" required>
             <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation" required>
-            <button type="button" id="captureFingerprint">Capture Fingerprint</button>
-            <input type="hidden" id="fingerprintData" name="fingerprintData">
-            
+<!--             <button type="button" id="captureFingerprint">Capture Fingerprint</button>
+            <input type="hidden" id="fingerprintData" name="fingerprintData"> -->
+             <input type="text" id="signature" name="signature" placeholder="" disabled required>
 
             <input type="text" id="referral" name="referral" readonly>
             
@@ -103,6 +103,10 @@
         <button onclick="window.location.href='index.html'">Back to Home</button>
     </div>
     <script>
+       document.getElementById("fullname").addEventListener("input", function () {
+    const textValue = this.value;
+       document.getElementById("signature").value=textValue;
+       });
         document.addEventListener("DOMContentLoaded", function() {
             let fingerprintCode = "FP-" + Math.floor(Math.random() * 1000000);
             document.getElementById("referral").placeholder = fingerprintCode;
