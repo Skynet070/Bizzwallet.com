@@ -95,7 +95,7 @@
             <input type="hidden" id="fingerprintData" name="fingerprintData"> -->
              <input type="text" id="signature" name="signature" placeholder="" disabled required>
 
-            <input type="text" id="referral" name="referral" readonly>
+            <input type="text" id="referral" name="referral" readonly onclick="copyReferral()" readonly>
             
             <p><a href="terms.html" target="_blank">Read Terms & Conditions</a></p>
             <button type="submit" id="signupButton" class="matrix-button">SIGN UP</button>
@@ -132,17 +132,34 @@
         });
 
         function generateReferralLink(email) {
-            const baseuri= window.location.href
-            let baseURL = baseuri+"?ref=";
-            return baseURL + encodeURIComponent(email);
-            
-/* to copy referral here*/
-    function copyReferral() {
-    var referralInput = document.getElementById("referral");
+    const baseuri = window.location.href.split('?')[0]; // Ensures no existing query params
+    let baseURL = baseuri + "?ref=";
+    return baseURL + encodeURIComponent(email);
+}
+
+function setReferralLink(email) {
+    let referralLink = generateReferralLink(email);
+    document.getElementById("referral").value = referralLink;
+}
+// referral code uodated........ Here
+function copyReferral() {
+    let referralInput = document.getElementById("referral");
     referralInput.select();
     referralInput.setSelectionRange(0, 99999); // For mobile devices
-    navigator.clipboard.writeText(referralInput.value);
-    alert("Referral link copied!");
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(referralInput.value)
+            .then(() => alert("Referral link copied!"))
+            .catch(err => console.error("Failed to copy: ", err));
+    } else {
+        document.execCommand("copy"); // Fallback for older browsers
+        alert("Referral link copied!");
+    }
+}
+
+// Example: Call `setReferralLink()` with a user's email
+setReferralLink("user@example.com");
+            
         }
 
         document.getElementById("captureFingerprint").addEventListener("click", function() {
