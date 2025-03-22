@@ -146,19 +146,6 @@ function copyReferral() {
     let referralInput = document.getElementById("referral");
     referralInput.select();
     referralInput.setSelectionRange(0, 99999); // For mobile devices
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(referralInput.value)
-            .then(() => alert("Referral link copied!"))
-            .catch(err => console.error("Failed to copy: ", err));
-    } else {
-        document.execCommand("copy"); // Fallback for older browsers
-        alert("Referral link copied!");
-    }
-}
-
-// Example: Call `setReferralLink()` with a user's email
-setReferralLink("user@example.com");
             
         }
 
