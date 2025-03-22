@@ -135,6 +135,14 @@
             const baseuri= window.location.href
             let baseURL = baseuri+"?ref=";
             return baseURL + encodeURIComponent(email);
+            
+/* to copy referral here*/
+    function copyReferral() {
+    var referralInput = document.getElementById("referral");
+    referralInput.select();
+    referralInput.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(referralInput.value);
+    alert("Referral link copied!");
         }
 
         document.getElementById("captureFingerprint").addEventListener("click", function() {
