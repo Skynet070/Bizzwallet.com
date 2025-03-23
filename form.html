@@ -55,7 +55,7 @@
             background: #00ffcc;
             color: black;
             font-weight: bold;
-            cursor: pointer;
+            cursor: printer;
             transition: 0.3s;
         }
 
@@ -126,6 +126,11 @@
                 let email = document.getElementById("email").value;
                 let referralLink = generateReferralLink(email);
                 document.getElementById("referral").placeholder = referralLink;
+                swal.fire({
+                    icons:'success',
+                    title: 'successful',
+                    text:' '"Registration successful!!! Your referral link:"'+ referralLink
+                })
                 alert("Sign-up successful! Your referral link: " + referralLink);
             })
             .catch(error => console.error("Error!", error));
