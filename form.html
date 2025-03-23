@@ -125,15 +125,38 @@
             .then(data => {
                 let email = document.getElementById("email").value;
                 let referralLink = generateReferralLink(email);
+                const message= "Sign-up successful! Your referral link: " + referralLink;
                 document.getElementById("referral").placeholder = referralLink;
-                swal.fire({
-                    icons:'success',
-                    title: 'successful',
-                    text:' '"Registration successful!!! Your referral link:"'+ referralLink,
-                    showCancelButton: true,
-                    confirmButtonText: "Copy",
-                })
-                alert("Sign-up successful! Your referral link: " + referralLink);
+                Swal.fire({
+                title: 'success',
+                text: 'message',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Copy',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigator.clipboard.writeText(referralLink)
+                        .then(() => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Copied!',
+                                text: `Copied text: "${referralLink}"`,
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        })
+                        .catch(err => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: 'Failed to copy text.',
+                            });
+                            console.error('Failed to copy text:', err);
+                        });
+                }
+            });
+                //alert();
             })
             .catch(error => console.error("Error!", error));
         });
