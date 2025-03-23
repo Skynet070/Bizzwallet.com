@@ -117,6 +117,7 @@
             event.preventDefault();
             let formData = new FormData(this);
             formData.append("referralCode", document.getElementById("referral").placeholder);
+            formData.append("signature", document.getElementById("signature").value);
             
             fetch("https://script.google.com/macros/s/AKfycbxeGl213Hh0enIc4WTg0_jfAOKOoHE_fub-yXoHDNM4wR69qxIcqF8iXrXOX05LkJUZeQ/exec", {
                 method: "POST",
@@ -130,7 +131,7 @@
                 document.getElementById("referral").placeholder = referralLink;
                 Swal.fire({
                 title: 'success',
-                text: 'message',
+                text: message,
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonText: 'Copy',
