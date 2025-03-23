@@ -129,7 +129,9 @@
                 swal.fire({
                     icons:'success',
                     title: 'successful',
-                    text:' '"Registration successful!!! Your referral link:"'+ referralLink
+                    text:' '"Registration successful!!! Your referral link:"'+ referralLink,
+                    showCancelButton: true,
+                    confirmButtonText: "Copy",
                 })
                 alert("Sign-up successful! Your referral link: " + referralLink);
             })
