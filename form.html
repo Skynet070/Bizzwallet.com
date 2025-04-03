@@ -163,23 +163,44 @@
             .catch(error => console.error("Error!", error));
         });
 
-        function generateReferralLink(email) {
-    const baseuri = window.location.href.split('?')[0]; // Ensures no existing query params
+     function generateReferralLink(userCode) {
+    const baseuri = window.location.href.split('?')[0]; // Removes existing query params
     let baseURL = baseuri + "?ref=";
-    return baseURL + encodeURIComponent(email);
+    return baseURL + encodeURIComponent(userCode);
 }
 
-function setReferralLink(email) {
-    let referralLink = generateReferralLink(email);
+function setReferralLink(userCode) {
+    let referralLink = generateReferralLink(userCode);
     document.getElementById("referral").value = referralLink;
 }
 // referral code uodated........ Here
-function copyReferral() {
-    let referralInput = document.getElementById("referral");
-    referralInput.select();
-    referralInput.setSelectionRange(0, 99999); // For mobile devices
-            
+document.getElementById("submitForm").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const userCode = "REF-" + Math.random().toString(36).substr(2, 8); // Generate unique referral code
+    const referrer = new URLSearchParams(window.location.search).get("ref"); // Get ref code from URL
+    
+    const formData = {
+        name: name,
+        email: email,
+        referralCode: userCode,
+        referredBy: referrer || "None" // Save who referred this user
+    };
+    
+    fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json"
         }
+    }).then(response => response.json())
+    .then(data => {
+        alert("Registration Successful! Your referral code: " + userCode);
+    }).catch(error => console.error("Error:", error));
+});
+
 
         document.getElementById("captureFingerprint").addEventListener("click", function() {
             alert("Fingerprint capture functionality will be integrated with an external API.");
