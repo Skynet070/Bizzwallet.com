@@ -6,247 +6,121 @@
     <title>Bizwallet Membership</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script defer src="script.js"></script>
     <style>
       @keyframes waves {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
-
       body {
         font-family: Arial, sans-serif;
         background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
         background-size: 400% 400%;
         animation: waves 10s ease infinite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 110vh;
-        margin: 0;
-        color: white;
+        display: flex; justify-content: center; align-items: center;
+        height: 110vh; margin: 0; color: white;
       }
-
       .signup-container {
         background: rgba(0, 0, 0, 0.8);
-        padding: 40px;
-        border-radius: 40px;
+        padding: 40px; border-radius: 40px;
         box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        text-align: center;
-        width: 80%;
-        max-width: 400px;
+        text-align: center; width: 80%; max-width: 400px;
       }
-
-      input,
+      input, button {
+        width: 100%; padding: 10px; margin: 10px 0;
+        border: 1px solid #00ffcc; border-radius: 5px;
+        font-size: 16px; background: rgba(255,255,255,0.1); color: white;
+      }
+      input::placeholder { color: rgba(255, 255, 255, 0.6); }
       button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #00ffcc;
-        border-radius: 5px;
-        font-size: 16px;
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
+        background: #00ffcc; color: black; font-weight: bold;
+        cursor: pointer; transition: 0.3s;
       }
-
-      input::placeholder {
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      button {
-        background: #00ffcc;
-        color: black;
-        font-weight: bold;
-        cursor: printer;
-        transition: 0.3s;
-      }
-
-      button:hover {
-        background: #00bfa5;
-      }
-
+      button:hover { background: #00bfa5; }
       .matrix-button {
-        font-family: monospace;
-        background: black;
-        color: lime;
-        text-transform: uppercase;
-        font-weight: bold;
-        letter-spacing: 3px;
+        font-family: monospace; background: black; color: lime;
+        text-transform: uppercase; font-weight: bold; letter-spacing: 3px;
       }
-
-      p a {
-        color: #00ffcc;
-        text-decoration: none;
-      }
-
-      p a:hover {
-        text-decoration: underline;
-      }
+      p a { color: #00ffcc; text-decoration: none; }
+      p a:hover { text-decoration: underline; }
     </style>
   </head>
   <body>
     <div class="signup-container">
       <h2>PH Cooperative Form</h2>
       <form id="signupForm">
-        <input
-          type="text"
-          id="fullname"
-          name="fullname"
-          placeholder="Enter your full name"
-          required
-        />
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Enter your email"
-          required
-        />
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          placeholder="Enter your phone number"
-          required
-        />
-        <input
-          type="text"
-          id="address"
-          name="address"
-          placeholder="Enter your address"
-          required
-        />
-        <input
-          type="text"
-          id="occupation"
-          name="occupation"
-          placeholder="Enter your occupation"
-          required
-        />
-        <!--             <button type="button" id="captureFingerprint">Capture Fingerprint</button>
-            <input type="hidden" id="fingerprintData" name="fingerprintData"> -->
-        <input
-          type="text"
-          id="signature"
-          name="signature"
-          placeholder=""
-          disabled
-          required
-        />
-
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required />
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
+        <input type="text" id="address" name="address" placeholder="Enter your address" required />
+        <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation" required />
+        <input type="text" id="signature" name="signature" placeholder="" disabled required />
         <input type="text" id="referral" name="referral" readonly />
-
         <p><a href="terms.html" target="_blank">Read Terms & Conditions</a></p>
-        <button type="submit" id="signupButton" class="matrix-button">
-          SIGN UP
-        </button>
+        <button type="submit" id="signupButton" class="matrix-button">SIGN UP</button>
       </form>
       <button onclick="window.location.href='index.html'">Back to Home</button>
     </div>
+
     <script>
-      document
-        .getElementById("fullname")
-        .addEventListener("input", function () {
-          const textValue = this.value;
-          document.getElementById("signature").value = textValue;
-        });
+      // Auto-fill signature with full name
+      document.getElementById("fullname").addEventListener("input", function () {
+        document.getElementById("signature").value = this.value;
+      });
+
+      // Generate referral placeholder
       document.addEventListener("DOMContentLoaded", function () {
         let fingerprintCode = "FP-" + Math.floor(Math.random() * 1000000);
         document.getElementById("referral").placeholder = fingerprintCode;
       });
 
-      document
-        .getElementById("signupForm")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-          const baseuri = window.location.href.split("=")[1];
-         
-            let formData = new FormData(this);
-            const code = document.getElementById("referral").placeholder;
-            formData.append("referralCode", code);
-            formData.append(
-              "Signature",
-              document.getElementById("signature").value
-            );
-            formData.append("referredBy", baseuri);
-            fetch(
-              "https://script.google.com/macros/s/AKfycby-_o_tjkfuKhZ5u3UCKR1GRKz8GO0ie7yUHob0Irv30GetoHdg7Zs3T6yZ5lbiwkBzpw/exec",
-              {
-                method: "POST",
-                body: formData,
-              }
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                let referralLink = generateReferralLink(code);
-                const message =
-                  "Sign-up successful! Your referral link: " + referralLink;
-                document.getElementById("referral").placeholder = referralLink;
-                Swal.fire({
-                  title: "success",
-                  text: message,
-                  icon: "info",
-                  showCancelButton: true,
-                  confirmButtonText: "Copy",
-                  cancelButtonText: "Cancel",
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    navigator.clipboard
-                      .writeText(referralLink)
-                      .then(() => {
-                        Swal.fire({
-                          icon: "success",
-                          title: "Copied!",
-                          text: `Copied text: "${referralLink}"`,
-                          timer: 2000,
-                          showConfirmButton: false,
-                        });
-                      })
-                      .catch((err) => {
-                        Swal.fire({
-                          icon: "error",
-                          title: "Oops!",
-                          text: "Failed to copy text.",
-                        });
-                        console.error("Failed to copy text:", err);
-                      });
-                  }
-                });
-                //alert();
-              })
-              .catch((error) => console.error("Error!", error));
-          
+      // Form submission
+      document.getElementById("signupForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const baseuri = window.location.href.split("=")[1];
+        let formData = new FormData(this);
+        const code = document.getElementById("referral").placeholder;
+
+        formData.append("referralCode", code);
+        formData.append("Signature", document.getElementById("signature").value);
+        formData.append("referredBy", baseuri);
+
+        let YOUR_GOOGLE_SCRIPT_EXEC_UR="https://script.google.com/macros/s/AKfycby-_o_tjkfuKhZ5u3UCKR1GRKz8GO0ie7yUHob0Irv30GetoHdg7Zs3T6yZ5lbiwkBzpw/exec"
+
+        fetch(YOUR_GOOGLE_SCRIPT_EXEC_URL, {
+          method: "POST",
+          body: formData,
+        })
+        .then(response => {
+          if (!response.ok) {
+            return response.text().then(text => { throw new Error(text) });
+          }
+          return response.json();
+        })
+        .then(data => {
+          let referralLink = generateReferralLink(code);
+          Swal.fire({
+            title: "Success",
+            text: "Sign-up successful! Your referral link: " + referralLink,
+            icon: "success"
+          });
+          document.getElementById("referral").placeholder = referralLink;
+        })
+        .catch(error => {
+          console.error("Error!", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops!",
+            text: "Something went wrong. Please try again."
+          });
         });
+      });
 
       function generateReferralLink(userCode) {
-        const baseuri = window.location.href.split("?")[0]; // Removes existing query params
-        let baseURL = baseuri + "?ref=";
-        return baseURL + encodeURIComponent(userCode);
+        const baseuri = window.location.href.split("?")[0];
+        return baseuri + "?ref=" + encodeURIComponent(userCode);
       }
-
-      function setReferralLink(userCode) {
-        let referralLink = generateReferralLink(userCode);
-        document.getElementById("referral").value = referralLink;
-      }
-      // referral code uodated........ Here
-
-      document
-        .getElementById("captureFingerprint")
-        .addEventListener("click", function () {
-          alert(
-            "Fingerprint capture functionality will be integrated with an external API."
-          );
-          document.getElementById("fingerprintData").value =
-            "SampleFingerprintData";
-        });
     </script>
   </body>
 </html>
-
-
